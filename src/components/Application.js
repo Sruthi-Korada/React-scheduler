@@ -7,7 +7,7 @@ import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "help
 export default function Application(props) {
   const setDay = day => setState(prev => ({ ...prev, day }));
   const [state, setState] = useState({
-    day: "Thursday",
+    day: "Monday",
     days: [],
     appointments: {}
   });
@@ -25,20 +25,36 @@ export default function Application(props) {
       }));
     });
   }, []);
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+     const appointments = {
+       ...state.appointments,
+       [id]: appointment
+     };
+     axios
+     .put(`/api/appointments/${id}`, appointment)
+     .then(setState({...state, appointments}))
+     .catch(err => console.error(err));
+}
   const interviewers = getInterviewersForDay(state, state.day);
   const appointments = getAppointmentsForDay(state, state.day);
   const schedule = appointments.map(appointment => {
-    const interview = getInterview(state, appointment.interview);
-    return (
-      <Appointment
-      key={appointment.id}
-      id={appointment.id}
-      time={appointment.time}
-      interview={interview}
-      interviewers={interviewers}
-      />
-    );
-  });
+  const interview = getInterview(state, appointment.interview);
+  return (
+  <Appointment
+  key={appointment.id}
+  id={appointment.id}
+  time={appointment.time}
+  interview={interview}
+  interviewers={interviewers}
+  bookInterview={bookInterview}
+  />
+);
+});
   return (
     <main className="layout">
       <section className="sidebar">
@@ -57,7 +73,7 @@ export default function Application(props) {
           alt="Lighthouse Labs"
         />
       </section>
-      <section className="schedule">{schedule}</section>
+      <section className="schedule">{schedule} <Appointment key="last" time="5pm"/></section>
     </main>
   );
 }
