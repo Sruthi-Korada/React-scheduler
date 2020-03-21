@@ -8,6 +8,7 @@ import Status from "components/Appointment/Status";
 import Confirm from "components/Appointment/Confirm";
 import Error from "components/Appointment/Error";
 const EMPTY = "EMPTY";
+const EDIT ="EDIT";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
@@ -53,7 +54,7 @@ if (!deleting){
       student={props.interview.student}
       interviewer={props.interview.interviewer}
       onDelete={() => transition(CONFIRM)}
-      onEdit={() => transition(CREATE)}
+      onEdit={() => transition(EDIT)}
   />
 )}
       {mode === CREATE && (<Form interviewers={props.interviewers} onCancel={back} onSave={save}/>)}
@@ -68,6 +69,15 @@ if (!deleting){
           message={'Delete the appointment?'}
           onConfirm= { onDelete }
           onCancel={ back }
+        />
+      )}
+      {mode === EDIT && (
+        <Form
+        name={props.interview.student}
+        interviewer={props.interview.interviewer.id}
+        interviewers={props.interviewers}
+        onSave={save}
+        onCancel={() => back()}
         />
       )}
       {mode === ERROR_DELETE && <Error 
