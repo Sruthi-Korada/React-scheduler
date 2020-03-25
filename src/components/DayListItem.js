@@ -15,7 +15,7 @@ export default function DayListItem(props) {
         formatSpots = `no spots remaining`
     }
     return (
-      <li
+      <li data-testid="day"
         name={props.name}
         className={DayClass}
         spots={props.spots}

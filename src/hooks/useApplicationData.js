@@ -40,9 +40,10 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
+
     return axios
       .delete(`/api/appointments/${id}`, appointment)
-      .then(setState({ ...state, appointments }));
+      .then(setState({ ...state, appointments}));
   }
   //--------------bookInterview function uses promises------------------
   function bookInterview(id, interview) {
@@ -54,11 +55,12 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
+   
     return axios
       .put(`http://localhost:8001/api/appointments/${id}`, appointment)
-      .then(setState({ ...state, appointments }));
+      .then(setState({ ...state, appointments}));
   }
-  //------------------Change remaining days-----------------------------
+  // ------------------Change remaining days-----------------------------
   useEffect(() => {
     axios
       .get("/api/days")
