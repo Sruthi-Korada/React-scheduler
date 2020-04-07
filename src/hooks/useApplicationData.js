@@ -75,9 +75,11 @@ export default function () {
       // set appointment's interview data to null
     state.appointments[id].interview = null;
 
-    dispatch({ type: actions.SET_APPOINTMENTS, value: state.appointments });
+   
 
-    return axios.delete(`/api/appointments/${id}`).then(() => updateSpots())
+    return axios.delete(`/api/appointments/${id}`).then(() => 
+    {dispatch({ type: actions.SET_APPOINTMENTS, value: state.appointments })
+    updateSpots()})
   }
 
   return ({

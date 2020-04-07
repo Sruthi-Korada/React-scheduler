@@ -1,21 +1,23 @@
-import { useState } from 'react'
+import { useState } from "react";
 
+// return an object with a property mode
 export default function useVisualMode(initial) {
-  const [mode, setMode] = useState(initial)
-  const [history, setHistory] = useState([initial])
-  function transition(nextMode, replace = false) {
-    setMode(nextMode)
-    if (replace) {
-      setHistory(prev => [prev[0]])
+  const [ mode, setMode ] = useState(initial);
+  const [ history, setHistory ] = useState([initial]);
+
+  // returns current mode
+  function transition(change, replace) {
+    if (!replace) {
+      setHistory(history => ([...history, change]));
     }
-    setHistory(prev => [...prev, nextMode])
+    return setMode(change);
   }
+
+  // returns the last mode
   function back() {
-    history.pop()
-    if (history.length) {
-      const prevMode = history[history.length - 1]
-      setMode(prevMode)
-    }
+    history.pop();
+    return setMode(history[history.length - 1]);
   }
-  return { mode, transition, back }
+
+  return { mode , transition, back }
 }
