@@ -7,7 +7,6 @@ export default function InterviewerList(props) {
     value: PropTypes.number,
     onChange: PropTypes.func.isRequired
   };
-  console.log(props.interviewers);
   const interviewersArr = Object.values(props.interviewers);
   const interviewers = interviewersArr.map(interviewer => {
     return (
